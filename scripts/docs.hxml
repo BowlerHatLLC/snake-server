@@ -1,0 +1,10 @@
+-cp ../src
+-lib hxargs
+-D doc_gen
+--macro include("snake")
+--no-output
+-xml ../bin/xml/types.xml
+--interp
+
+--next
+-cmd haxelib run dox -o ../bin/api -i ../bin/xml/types.xml --include snake --toplevel-package snake --title "Snake Server API Reference" -D website "https://bowlerhat.dev" -D source-path "https://github.com/BowlerHatLLC/snake-server/tree/main/src/"
