@@ -7,10 +7,21 @@ on:
       - main
 
 jobs:
-  api:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: snake-server-haxelib
+          path: |
+            src/
+            haxelib.json
+            build.hxml
+            README.md
+            LICENSE
+            CHANGELOG.md
+          if-no-files-found: error
       - uses: krdlab/setup-haxe@v1
         with:
           haxe-version: 4.3.4
@@ -27,19 +38,8 @@ jobs:
           name: snake-server-docs
           path: bin/api/
           if-no-files-found: error
-
-  haxelib:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/upload-artifact@v4
-        with:
-          name: snake-server-haxelib
-          path: |
-            src/
-            haxelib.json
-            build.hxml
-            README.md
-            LICENSE
-            CHANGELOG.md
-          if-no-files-found: error
+      - name: Build targets
+        run: |
+          haxe neko.hxml
+          haxe hl.hxml
+          haxe cpp.hxml
