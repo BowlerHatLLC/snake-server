@@ -1,0 +1,4 @@
+--neko bin/snake.n
+--main snake.Run
+-cp src
+-lib hxargs

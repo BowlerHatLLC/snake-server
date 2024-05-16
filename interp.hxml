@@ -1,3 +1,4 @@
+--interp
 --main snake.Run
 -cp src
 -lib hxargs

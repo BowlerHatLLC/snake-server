@@ -1,0 +1,4 @@
+--cpp bin/snake
+--main snake.Run
+-cp src
+-lib hxargs
