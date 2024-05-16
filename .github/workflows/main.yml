@@ -29,6 +29,7 @@ jobs:
         run: |
           haxelib install dox --quiet
           haxelib install hxargs --quiet
+          haxelib install hxcpp --quiet
           haxelib dev snake-server ${{ github.workspace }}
       - name: Build API reference
         working-directory: scripts
