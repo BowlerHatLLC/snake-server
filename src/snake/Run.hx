@@ -15,11 +15,10 @@ class Run {
 
 	public static function main():Void {
 		var args = Sys.args();
-		trace(args);
-		#if interp
-		var cwd = args.pop();
-		Sys.setCwd(cwd);
-		#end
+		if (Sys.getEnv("HAXELIB_RUN") == "1" && Sys.getEnv("HAXELIB_RUN_NAME") == "snake-server") {
+			var cwd = args.pop();
+			Sys.setCwd(cwd);
+		}
 
 		var address:String = DEFAULT_ADDRESS;
 		var port:Int = DEFAULT_PORT;
