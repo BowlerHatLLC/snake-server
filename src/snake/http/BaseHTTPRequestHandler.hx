@@ -440,8 +440,21 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 		before writing the output to stderr.
 	**/
 	private function logMessage(message:String):Void {
-		// TODO: handle unicode control characters
+		message = escapeMessageForLog(message);
 		Sys.print('${addressString()} - - [${dateTimeStringForLog()}] ${message}\n');
+	}
+
+	private function escapeMessageForLog(message:String):String {
+		var result = "";
+		for (i in 0...message.length) {
+			var charCode = message.charCodeAt(i);
+			if (charCode < 0x20 || (charCode >= 0x7f && charCode < 0xa0)) {
+				result += '\\x${StringTools.hex(charCode, 2)}';
+			} else {
+				result += String.fromCharCode(charCode);
+			}
+		}
+		return result;
 	}
 
 	/**
