@@ -1,15 +1,15 @@
 package snake.http;
 
-import sys.net.Host;
-import snake.socket.BaseServer;
-import haxe.io.Output;
-import sys.net.Socket;
-import sys.io.File;
-import snake.http.BaseHTTPRequestHandler.HTTPStatus;
-import haxe.io.Input;
-import haxe.io.Path;
 import haxe.Exception;
+import haxe.io.Input;
+import haxe.io.Output;
+import haxe.io.Path;
+import snake.http.BaseHTTPRequestHandler.HTTPStatus;
+import snake.socket.BaseServer;
 import sys.FileSystem;
+import sys.io.File;
+import sys.net.Host;
+import sys.net.Socket;
 
 class SimpleHTTPRequestHandler extends BaseHTTPRequestHandler {
 	private var directory:String;
@@ -194,7 +194,7 @@ class SimpleHTTPRequestHandler extends BaseHTTPRequestHandler {
 	}
 
 	private function copyFile(src:Input, dst:Output):Void {
-		dst.write(src.readAll());
+		dst.writeInput(src);
 	}
 
 	private function guessType(path:String):String {
