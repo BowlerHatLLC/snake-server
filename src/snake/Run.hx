@@ -52,6 +52,7 @@ class Run {
 		argHandler.parse(args);
 		BaseHTTPRequestHandler.protocolVersion = protocol;
 		var httpServer = new RunHTTPServer(new Host(address), port, SimpleHTTPRequestHandler, directory);
+		httpServer.threading = true;
 		httpServer.serveForever();
 	}
 }
