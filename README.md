@@ -14,6 +14,8 @@ Use the [**haxelib install**](https://lib.haxe.org/documentation/using-haxelib/#
 haxelib install snake-server
 ```
 
+Requires Haxe 4.1 or newer.
+
 ## Command Line
 
 Use the [**haxelib run**](https://lib.haxe.org/documentation/using-haxelib/#run) command to download Snake Server.
