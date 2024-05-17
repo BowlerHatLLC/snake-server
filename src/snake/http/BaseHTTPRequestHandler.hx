@@ -11,6 +11,11 @@ import sys.net.Host;
 import sys.net.Socket;
 
 class BaseHTTPRequestHandler extends StreamRequestHandler {
+	private static final DATE_STRING_DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	private static final DATE_STRING_MONTH_NAMES = [
+		"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	];
+
 	private static macro function getLibraryVersion():haxe.macro.Expr {
 		var posInfos = haxe.macro.Context.getPosInfos(haxe.macro.Context.currentPos());
 		var directory = Path.directory(posInfos.file);
@@ -448,13 +453,27 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 
 	/**
 		Return the current date and time formatted for a message header.
+
+		Format:
+
+		```
+		Date: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT
+		```
+
+		@see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Date
 	**/
 	private function dateTimeString(?timestamp:Date):String {
 		if (timestamp == null) {
 			timestamp = Date.now();
 		}
-		// TODO: rfc 2822 format
-		return timestamp.toString();
+		var utcDayName = DATE_STRING_DAY_NAMES[timestamp.getUTCDay()];
+		var utcDate = StringTools.lpad(Std.string(timestamp.getUTCDate()), "0", 2);
+		var utcMonthName = DATE_STRING_MONTH_NAMES[timestamp.getUTCMonth()];
+		var utcYear = timestamp.getUTCFullYear();
+		var utcHours = StringTools.lpad(Std.string(timestamp.getUTCHours()), "0", 2);
+		var utcMinutes = StringTools.lpad(Std.string(timestamp.getUTCMinutes()), "0", 2);
+		var utcSeconds = StringTools.lpad(Std.string(timestamp.getUTCSeconds()), "0", 2);
+		return '$utcDayName, $utcDate $utcMonthName $utcYear $utcHours:$utcMinutes:$utcSeconds GMT';
 	}
 
 	/**
