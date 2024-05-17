@@ -225,11 +225,17 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 	**/
 	private function handleOneRequest():Void {
 		try {
+			var selected = Socket.select([connection], null, null, 5);
+			if (selected.read.length == 0) {
+				closeConnection = true;
+				return;
+			}
 			rawRequestLine = "";
 			var lineLength = 0;
 			var char:String = null;
 			// can't seem to rely on Haxe socket input readLine() because it
-			// sometimes blocks until the connection is dropped
+			// sometimes blocks until the connection is dropped, even if
+			// Socket.select() says that the socket is ready to read.
 			while (true) {
 				char = rfile.readString(1);
 				if (char == "\r") {
@@ -265,6 +271,7 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 				return;
 			}
 			// actually send the response if not already done.
+			// NOTE: Haxe does not seem to actually flush here!
 			wfile.flush();
 		} catch (e:Exception) {
 			logError("Unknown exception: " + e.toString());
