@@ -66,6 +66,9 @@ class BaseServer {
 
 	/**
 		Stops the `serveForever()` loop.
+
+		Blocks until the loop has finished. This must be called while
+		`serveForever()` is running in another thread, or it will deadlock.
 	**/
 	public function shutdown():Void {
 		__shutdownRequest = true;

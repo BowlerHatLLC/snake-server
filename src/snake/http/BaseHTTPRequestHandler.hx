@@ -66,7 +66,7 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 
 	/**
 		The version of the HTTP protocol we support.
-		set this to HTTP/1.1 to enable automatic keepalive
+		Set this to `"HTTP/1.1"` to enable automatic keepalive.
 	**/
 	public static var protocolVersion:String = "HTTP/1.0";
 

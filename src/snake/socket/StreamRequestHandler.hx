@@ -7,7 +7,7 @@ import sys.net.Socket;
 import haxe.io.Input;
 
 /**
-	Define self.rfile and self.wfile for stream sockets.
+	Define `rfile` and `wfile` for stream sockets.
 **/
 class StreamRequestHandler extends BaseRequestHandler {
 	/**
