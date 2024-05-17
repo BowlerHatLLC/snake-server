@@ -10,6 +10,17 @@ import haxe.io.Input;
 	Define self.rfile and self.wfile for stream sockets.
 **/
 class StreamRequestHandler extends BaseRequestHandler {
+	/**
+		A timeout to apply to the request socket, if not `null`.
+	**/
+	public var timeout:Null<Float> = null;
+
+	/**
+		Disable nagle algorithm for this socket, if `true`.
+		Use only when wbufsize != 0, to avoid small packets.
+	**/
+	public var disableNagleAlgorithm:Bool = false;
+
 	private var connection:Socket;
 	private var rfile:Input;
 	private var wfile:Output;
@@ -23,6 +34,12 @@ class StreamRequestHandler extends BaseRequestHandler {
 
 	override private function setup():Void {
 		connection = cast(request, Socket);
+		if (disableNagleAlgorithm) {
+			connection.setFastSend(true);
+		}
+		if (timeout != null) {
+			connection.setTimeout(timeout);
+		}
 		rfile = connection.input;
 		wfile = connection.output;
 	}
