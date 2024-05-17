@@ -3,6 +3,7 @@ package snake.socket;
 import haxe.Exception;
 import sys.net.Host;
 import sys.net.Socket;
+import sys.thread.ElasticThreadPool;
 import sys.thread.Mutex;
 
 /**
@@ -14,11 +15,17 @@ class BaseServer {
 	**/
 	public var timeout:Null<Float> = null;
 
+	/**
+		Handle each request in a new thread.
+	**/
+	public var threading:Bool = false;
+
 	private var serverAddress:{host:Host, port:Int};
 	private var socket:Socket;
 	private var requestHandlerClass:Class<BaseRequestHandler>;
 	private var __shutdownRequest = false;
 	private var __isShutDown:Mutex;
+	private var threadPool:ElasticThreadPool;
 
 	public function new(serverHost:Host, serverPort:Int, requestHandlerClass:Class<BaseRequestHandler>) {
 		this.serverAddress = {host: serverHost, port: serverPort};
@@ -130,8 +137,22 @@ class BaseServer {
 		Call `finishRequest`.
 	**/
 	private function processRequest(request:Socket, clientAddress:{host:Host, port:Int}):Void {
-		finishRequest(request, clientAddress);
-		shutdownRequest(request);
+		if (threading) {
+			if (threadPool == null) {
+				threadPool = new ElasticThreadPool(5);
+			}
+			threadPool.run(() -> {
+				try {
+					finishRequest(request, clientAddress);
+				} catch (e:Exception) {
+					handleError(request, clientAddress);
+				}
+				shutdownRequest(request);
+			});
+		} else {
+			finishRequest(request, clientAddress);
+			shutdownRequest(request);
+		}
 	}
 
 	/**
@@ -139,7 +160,12 @@ class BaseServer {
 
 		May be overridden.
 	**/
-	private function serverClose():Void {}
+	private function serverClose():Void {
+		if (threadPool != null) {
+			threadPool.shutdown();
+			threadPool = null;
+		}
+	}
 
 	/**
 		Finish one request by instantiating `requestHandlerClass`.
