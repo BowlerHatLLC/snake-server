@@ -3,8 +3,8 @@ package snake.socket;
 import haxe.Exception;
 import sys.net.Host;
 import sys.net.Socket;
-import sys.thread.ElasticThreadPool;
 import sys.thread.Mutex;
+import sys.thread.Thread;
 
 /**
 	Base class for server classes.
@@ -25,7 +25,6 @@ class BaseServer {
 	private var requestHandlerClass:Class<BaseRequestHandler>;
 	private var __shutdownRequest = false;
 	private var __isShutDown:Mutex;
-	private var threadPool:ElasticThreadPool;
 
 	public function new(serverHost:Host, serverPort:Int, requestHandlerClass:Class<BaseRequestHandler>) {
 		this.serverAddress = {host: serverHost, port: serverPort};
@@ -141,10 +140,7 @@ class BaseServer {
 	**/
 	private function processRequest(request:Socket, clientAddress:{host:Host, port:Int}):Void {
 		if (threading) {
-			if (threadPool == null) {
-				threadPool = new ElasticThreadPool(5);
-			}
-			threadPool.run(() -> {
+			Thread.create(() -> {
 				try {
 					finishRequest(request, clientAddress);
 				} catch (e:Exception) {
@@ -164,10 +160,6 @@ class BaseServer {
 		May be overridden.
 	**/
 	private function serverClose():Void {
-		if (threadPool != null) {
-			threadPool.shutdown();
-			threadPool = null;
-		}
 	}
 
 	/**
