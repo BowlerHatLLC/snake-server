@@ -39,6 +39,12 @@ jobs:
           name: snake-server-docs
           path: bin/api/
           if-no-files-found: error
+      - name: Upload API Reference
+        if: ${{ github.repository == 'BowlerHatLLC/snake-server' && github.event_name != 'pull_request' && github.ref_name == 'main' }}
+        uses: JamesIves/github-pages-deploy-action@v4.6.0
+        with:
+          branch: gh-pages
+          folder: bin/api
       - name: Build targets
         run: |
           haxe neko.hxml
