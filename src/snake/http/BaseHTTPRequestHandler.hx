@@ -329,6 +329,7 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 			sendHeader("Content-Type", errorContentType);
 			sendHeader('Content-Length', Std.string(body.length));
 		}
+		endHeaders();
 
 		if (command != 'HEAD' && body != null) {
 			wfile.writeString(body);
