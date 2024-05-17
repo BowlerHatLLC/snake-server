@@ -420,7 +420,13 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 
 		This is called by sendResponse().
 	**/
-	private function logRequest(code:Any = "-", size:Any = "-"):Void {
+	private function logRequest(?code:Any, ?size:Any):Void {
+		if (code == null) {
+			code = "-";
+		}
+		if (size == null) {
+			size = "-";
+		}
 		if ((code is HTTPStatus)) {
 			code = (code : HTTPStatus).code;
 		}
