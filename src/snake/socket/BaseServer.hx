@@ -36,11 +36,11 @@ class BaseServer {
 	/**
 		Handle one request at a time until shutdown.
 	**/
-	public function serveForever():Void {
+	public function serveForever(pollInterval:Float = 0.5):Void {
 		__isShutDown.acquire();
 		try {
 			while (!__shutdownRequest) {
-				var ready = Socket.select([socket], null, null, timeout);
+				var ready = Socket.select([socket], null, null, pollInterval);
 				if (__shutdownRequest) {
 					// bpo-35017: shutdown() called during select(), exit immediately.
 					break;
