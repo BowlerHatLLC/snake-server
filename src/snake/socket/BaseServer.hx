@@ -9,6 +9,9 @@ import sys.thread.Mutex;
 	Base class for server classes.
 **/
 class BaseServer {
+	/**
+		A timeout to apply to the request socket, if not `null`.
+	**/
 	public var timeout:Null<Float> = null;
 
 	private var serverAddress:{host:Host, port:Int};
@@ -55,7 +58,7 @@ class BaseServer {
 	}
 
 	/**
-		Stops the serve_forever loop.
+		Stops the `serveForever()` loop.
 	**/
 	public function shutdown():Void {
 		__shutdownRequest = true;

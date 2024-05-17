@@ -8,11 +8,18 @@ import snake.socket.BaseRequestHandler;
 import sys.net.Host;
 import sys.net.Socket;
 
+/**
+	Run `haxelib run snake-server` to start a local HTTP server that serves
+	static files from the current directory.
+**/
 class Run {
 	private static final DEFAULT_PROTOCOL = "HTTP/1.0";
 	private static final DEFAULT_ADDRESS = "127.0.0.1";
 	private static final DEFAULT_PORT = 8000;
 
+	/**
+		Entry point.
+	**/
 	public static function main():Void {
 		var args = Sys.args();
 		if (Sys.getEnv("HAXELIB_RUN") == "1" && Sys.getEnv("HAXELIB_RUN_NAME") == "snake-server") {

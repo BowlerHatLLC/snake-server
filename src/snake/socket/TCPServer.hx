@@ -10,6 +10,10 @@ import sys.net.Socket;
 	Defaults to synchronous IP stream (i.e., TCP).
 **/
 class TCPServer extends BaseServer {
+	/**
+		The number of pending connection until some get rejected. Passed to
+		`socket.listen()`.
+	**/
 	public var requestQueueSize:Int = 5;
 
 	/**

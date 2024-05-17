@@ -6,11 +6,17 @@ import haxe.io.Output;
 import sys.net.Socket;
 import haxe.io.Input;
 
+/**
+	Define self.rfile and self.wfile for stream sockets.
+**/
 class StreamRequestHandler extends BaseRequestHandler {
 	private var connection:Socket;
 	private var rfile:Input;
 	private var wfile:Output;
 
+	/**
+		Constructor.
+	**/
 	public function new(request:Socket, clientAddress:{host:Host, port:Int}, server:BaseServer) {
 		super(request, clientAddress, server);
 	}

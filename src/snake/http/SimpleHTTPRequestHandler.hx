@@ -4,7 +4,6 @@ import haxe.Exception;
 import haxe.io.Input;
 import haxe.io.Output;
 import haxe.io.Path;
-import snake.http.BaseHTTPRequestHandler.HTTPStatus;
 import snake.socket.BaseServer;
 import sys.FileSystem;
 import sys.io.File;
@@ -21,6 +20,9 @@ class SimpleHTTPRequestHandler extends BaseHTTPRequestHandler {
 	];
 	private var indexPages:Array<String> = ["index.html", "index.htm"];
 
+	/**
+		Constructor.
+	**/
 	public function new(request:Socket, clientAddress:{host:Host, port:Int}, server:BaseServer, ?directory:String) {
 		this.directory = directory;
 		super(request, clientAddress, server);

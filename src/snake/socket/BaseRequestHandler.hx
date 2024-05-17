@@ -12,6 +12,9 @@ class BaseRequestHandler {
 	private var clientAddress:{host:Host, port:Int};
 	private var server:BaseServer;
 
+	/**
+		Constructor.
+	**/
 	public function new(request:Socket, clientAddress:{host:Host, port:Int}, server:BaseServer) {
 		this.request = request;
 		this.clientAddress = clientAddress;

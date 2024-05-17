@@ -48,6 +48,10 @@ Example:
 haxelib run snake-server --address 0.0.0.0 --port 3000 --protocol HTTP/1.1 --directory www
 ```
 
+## Haxe Documentation
+
+- [snake-server API Reference](https://bowlerhatllc.github.io/snake-server/)
+
 ## Why did you choose "snake" for the name? 🐍
 
 The Snake Server project's Haxe code is actually ported from the [Python](https://python.org/) language's [http.server](https://docs.python.org/3/library/http.server.html) and [socketserver](https://docs.python.org/3/library/socketserver.html) modules. [Pythons](<https://en.wikipedia.org/wiki/Python_(genus)>) are also a [type of snake](https://en.wikipedia.org/wiki/Snake). The name is simply meant to pay tribute to the code's origins.
