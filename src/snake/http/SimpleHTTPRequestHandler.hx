@@ -146,6 +146,7 @@ class SimpleHTTPRequestHandler extends BaseHTTPRequestHandler {
 	**/
 	private function listDirectory(translatedPath:String):Input {
 		// TODO: implement directory listing
+		sendError(HTTPStatus.NOT_FOUND, "File not found");
 		return null;
 	}
 
