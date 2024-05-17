@@ -1,13 +1,13 @@
 package snake.http;
 
-import sys.net.Host;
-import snake.socket.BaseServer;
 import haxe.Exception;
 import haxe.Json;
 import haxe.io.Input;
 import haxe.io.Path;
+import snake.socket.BaseServer;
 import snake.socket.StreamRequestHandler;
 import sys.io.File;
+import sys.net.Host;
 import sys.net.Socket;
 
 class BaseHTTPRequestHandler extends StreamRequestHandler {
@@ -217,8 +217,25 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 	**/
 	private function handleOneRequest():Void {
 		try {
-			rawRequestLine = rfile.readLine();
-			if (rawRequestLine.length > MAX_LINE) {
+			rawRequestLine = "";
+			var lineLength = 0;
+			var char:String = null;
+			// can't seem to rely on Haxe socket input readLine() because it
+			// sometimes blocks until the connection is dropped
+			while (true) {
+				char = rfile.readString(1);
+				if (char == "\r") {
+					continue;
+				} else if (char == "\n") {
+					break;
+				} else {
+					rawRequestLine += char;
+					if (lineLength > MAX_LINE) {
+						break;
+					}
+				}
+			}
+			if (lineLength > MAX_LINE) {
 				requestLine = '';
 				requestVersion = '';
 				command = '';
@@ -370,7 +387,7 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 	}
 
 	private function flushHeaders():Void {
-		if (headersBuffer != null) {
+		if (headersBuffer != null && headersBuffer.length > 0) {
 			wfile.writeString(headersBuffer);
 			headersBuffer = "";
 		}
@@ -547,8 +564,24 @@ private class HeaderParser {
 	private static function readHeaders(input:Input):Array<String> {
 		var headers:Array<String> = [];
 		while (true) {
-			var line = input.readLine();
-			if (line.length > MAX_LINE) {
+			var line = "";
+			var lineLength = 0;
+			var char:String = null;
+			while (true) {
+				char = input.readString(1);
+				if (char == "\r") {
+					continue;
+				} else if (char == "\n") {
+					break;
+				} else {
+					line += char;
+					lineLength++;
+					if (lineLength > MAX_LINE) {
+						break;
+					}
+				}
+			}
+			if (lineLength > MAX_LINE) {
 				throw new Exception("header line too long");
 			}
 			headers.push(line);
