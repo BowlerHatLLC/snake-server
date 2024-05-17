@@ -1,5 +1,6 @@
 package snake.http;
 
+import haxe.io.Eof;
 import haxe.Exception;
 import haxe.Json;
 import haxe.io.Input;
@@ -236,18 +237,23 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 			// can't seem to rely on Haxe socket input readLine() because it
 			// sometimes blocks until the connection is dropped, even if
 			// Socket.select() says that the socket is ready to read.
-			while (true) {
-				char = rfile.readString(1);
-				if (char == "\r") {
-					continue;
-				} else if (char == "\n") {
-					break;
-				} else {
-					rawRequestLine += char;
-					if (lineLength > MAX_LINE) {
+			try {
+				while (true) {
+					char = rfile.readString(1);
+					if (char == "\r") {
+						continue;
+					} else if (char == "\n") {
 						break;
+					} else {
+						rawRequestLine += char;
+						if (lineLength > MAX_LINE) {
+							break;
+						}
 					}
 				}
+			} catch (e:Eof) {
+				closeConnection = true;
+				return;
 			}
 			if (lineLength > MAX_LINE) {
 				requestLine = '';
