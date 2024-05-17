@@ -79,11 +79,8 @@ class SimpleHTTPRequestHandler extends BaseHTTPRequestHandler {
 	**/
 	private function sendHead():Input {
 		var translatedPath = translatePath(path);
-		if (!FileSystem.exists(translatedPath)) {
-			return null;
-		}
 		var f = null;
-		if (FileSystem.isDirectory(translatedPath)) {
+		if (FileSystem.exists(translatedPath) && FileSystem.isDirectory(translatedPath)) {
 			if (!StringTools.endsWith(translatedPath, "/")) {
 				// redirect browser - doing basically what apache does
 				sendResponse(HTTPStatus.MOVED_PERMANENTLY);
