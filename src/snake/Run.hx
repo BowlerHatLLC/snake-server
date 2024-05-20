@@ -32,6 +32,7 @@ class Run {
 		var directory:String = null;
 		var protocol:String = DEFAULT_PROTOCOL;
 		var corsEnabled:Bool = false;
+		var cacheEnabled:Bool = true;
 		var argHandler = Args.generate([
 			@doc('bind to this address (default: ${DEFAULT_ADDRESS})')
 			["--bind"] => function(host:String) {
@@ -51,11 +52,15 @@ class Run {
 			}, @doc('enable CORS header')
 			["--cors"] => function() {
 				corsEnabled = true;
+			}, @doc('disable caching')
+			["--no-cache"] => function() {
+				cacheEnabled = false;
 			},
 		]);
 		argHandler.parse(args);
 		BaseHTTPRequestHandler.protocolVersion = protocol;
 		RunHTTPRequestHandler.corsEnabled = corsEnabled;
+		RunHTTPRequestHandler.cacheEnabled = cacheEnabled;
 		var httpServer = new RunHTTPServer(new Host(address), port, RunHTTPRequestHandler, true, directory);
 		httpServer.threading = true;
 		httpServer.serveForever();
@@ -64,10 +69,14 @@ class Run {
 
 private class RunHTTPRequestHandler extends SimpleHTTPRequestHandler {
 	public static var corsEnabled = false;
+	public static var cacheEnabled = true;
 
 	override public function endHeaders() {
 		if (corsEnabled) {
 			sendHeader('Access-Control-Allow-Origin', '*');
+		}
+		if (!cacheEnabled) {
+			sendHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 		}
 		super.endHeaders();
 	}
