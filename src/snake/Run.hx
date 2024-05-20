@@ -71,6 +71,11 @@ private class RunHTTPRequestHandler extends SimpleHTTPRequestHandler {
 	public static var corsEnabled = false;
 	public static var cacheEnabled = true;
 
+	override private function setup():Void {
+		super.setup();
+		serverVersion = 'SnakeServer/${BaseHTTPRequestHandler.getLibraryVersion()}';
+	}
+
 	override public function endHeaders() {
 		if (corsEnabled) {
 			sendHeader('Access-Control-Allow-Origin', '*');

@@ -1,8 +1,8 @@
 package snake.http;
 
-import haxe.io.Eof;
 import haxe.Exception;
 import haxe.Json;
+import haxe.io.Eof;
 import haxe.io.Input;
 import haxe.io.Path;
 import snake.socket.BaseServer;
@@ -20,7 +20,11 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 	private static macro function getLibraryVersion():haxe.macro.Expr {
 		var posInfos = haxe.macro.Context.getPosInfos(haxe.macro.Context.currentPos());
 		var directory = Path.directory(posInfos.file);
-		var haxelibPath = Path.join([directory, "..", "..", "..", "haxelib.json"]);
+		var haxelibPath = if (Path.withoutDirectory(posInfos.file) == "Run.hx") {
+			Path.join([directory, "..", "..", "haxelib.json"]);
+		} else {
+			Path.join([directory, "..", "..", "..", "haxelib.json"]);
+		}
 		var json:Dynamic = Json.parse(File.getContent(haxelibPath));
 		return macro $v{json.version};
 	}
