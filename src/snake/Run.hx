@@ -56,7 +56,7 @@ class Run {
 		argHandler.parse(args);
 		BaseHTTPRequestHandler.protocolVersion = protocol;
 		RunHTTPRequestHandler.corsEnabled = corsEnabled;
-		var httpServer = new RunHTTPServer(new Host(address), port, RunHTTPRequestHandler, directory);
+		var httpServer = new RunHTTPServer(new Host(address), port, RunHTTPRequestHandler, true, directory);
 		httpServer.threading = true;
 		httpServer.serveForever();
 	}
@@ -76,8 +76,7 @@ private class RunHTTPRequestHandler extends SimpleHTTPRequestHandler {
 private class RunHTTPServer extends HTTPServer {
 	private var directory:String;
 
-	public function new(serverHost:Host, serverPort:Int, requestHandlerClass:Class<BaseRequestHandler>, bindAndActivate:Bool = true, ?protocolVersion:String,
-			?directory:String) {
+	public function new(serverHost:Host, serverPort:Int, requestHandlerClass:Class<BaseRequestHandler>, bindAndActivate:Bool = true, ?directory:String) {
 		this.directory = directory;
 		super(serverHost, serverPort, requestHandlerClass, bindAndActivate);
 		Sys.print('Serving HTTP on ${serverAddress.host} port ${serverAddress.port} (http://${serverAddress.host}:${serverAddress.port})\n');
