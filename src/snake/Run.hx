@@ -31,6 +31,7 @@ class Run {
 		var port:Int = DEFAULT_PORT;
 		var directory:String = null;
 		var protocol:String = DEFAULT_PROTOCOL;
+		var corsEnabled:Bool = false;
 		var argHandler = Args.generate([
 			@doc('bind to this address (default: ${DEFAULT_ADDRESS})')
 			["--bind"] => function(host:String) {
@@ -47,13 +48,28 @@ class Run {
 			@doc('bind to this port (default: ${DEFAULT_PORT})')
 			["--port"] => function(tcpPort:Int) {
 				port = tcpPort;
+			}, @doc('enable CORS header')
+			["--cors"] => function() {
+				corsEnabled = true;
 			},
 		]);
 		argHandler.parse(args);
 		BaseHTTPRequestHandler.protocolVersion = protocol;
-		var httpServer = new RunHTTPServer(new Host(address), port, SimpleHTTPRequestHandler, directory);
+		RunHTTPRequestHandler.corsEnabled = corsEnabled;
+		var httpServer = new RunHTTPServer(new Host(address), port, RunHTTPRequestHandler, directory);
 		httpServer.threading = true;
 		httpServer.serveForever();
+	}
+}
+
+private class RunHTTPRequestHandler extends SimpleHTTPRequestHandler {
+	public static var corsEnabled = false;
+
+	override public function endHeaders() {
+		if (corsEnabled) {
+			sendHeader('Access-Control-Allow-Origin', '*');
+		}
+		super.endHeaders();
 	}
 }
 
