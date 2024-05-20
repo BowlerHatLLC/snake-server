@@ -33,8 +33,9 @@ class Run {
 		var protocol:String = DEFAULT_PROTOCOL;
 		var corsEnabled:Bool = false;
 		var cacheEnabled:Bool = true;
-		var argHandler = Args.generate([
-			@doc('bind to this address (default: ${DEFAULT_ADDRESS})')
+		var argHandler:ArgHandler = null;
+		argHandler = Args.generate([
+			@doc('bind to this address (default: 127.0.01')
 			["--bind"] => function(host:String) {
 				address = host;
 			},
@@ -42,11 +43,11 @@ class Run {
 			["--directory"] => function(path:String) {
 				directory = path;
 			},
-			@doc('conform to this HTTP version (default: ${DEFAULT_PROTOCOL})')
+			@doc('conform to this HTTP version (default: HTTP/1.0)')
 			["--protocol"] => function(version:String) {
 				protocol = version;
 			},
-			@doc('bind to this port (default: ${DEFAULT_PORT})')
+			@doc('bind to this port (default: 8000)')
 			["--port"] => function(tcpPort:Int) {
 				port = tcpPort;
 			}, @doc('enable CORS header')
@@ -55,6 +56,13 @@ class Run {
 			}, @doc('disable caching')
 			["--no-cache"] => function() {
 				cacheEnabled = false;
+			},
+			@doc('print this help message')
+			["--help"] => function() {
+				Sys.println("Usage: haxelib run snake-server [options]");
+				Sys.println("Options:");
+				Sys.println(argHandler.getDoc());
+				Sys.exit(0);
 			},
 		]);
 		argHandler.parse(args);
