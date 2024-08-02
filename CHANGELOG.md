@@ -1,5 +1,10 @@
 # Snake Server Change Log
 
+## 1.2.0 (2024-??-??)
+
+- Added `--silent` command line option to disable request logging.
+- Added `--open-browser` command line option to launch a web browser with the server's URL.
+
 ## 1.1.0 (2024-05-21)
 
 - Added `--cors` command line option to enable CORS header.
