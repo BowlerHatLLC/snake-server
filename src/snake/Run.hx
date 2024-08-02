@@ -35,6 +35,7 @@ class Run {
 		var cacheEnabled:Bool = true;
 		var argHandler:ArgHandler = null;
 		var silent:Bool = false;
+		var openBrowser:Bool = false;
 		argHandler = Args.generate([
 			@doc('bind to this address (default: 127.0.01')
 			["--bind"] => function(host:String) {
@@ -61,6 +62,9 @@ class Run {
 			["--silent"] => function() {
 				silent = true;
 			},
+			["--open-browser"] => function() {
+				openBrowser = true;
+			},
 			@doc('print this help message')
 			["--help"] => function() {
 				Sys.println("Usage: haxelib run snake-server [options]");
@@ -76,6 +80,21 @@ class Run {
 		RunHTTPRequestHandler.silent = silent;
 		var httpServer = new RunHTTPServer(new Host(address), port, RunHTTPRequestHandler, true, directory);
 		httpServer.threading = true;
+
+		if (openBrowser) {
+			var url = 'http://${address}:${port}';
+			switch (Sys.systemName()) {
+				case "Windows":
+					Sys.command("start", ["", url]);
+				case "Mac":
+					Sys.command("/usr/bin/open", [url]);
+				case "Linux":
+					Sys.command("/usr/bin/xdg-open", [url]);
+				default:
+					Sys.println('Failed to open web browser. Unknown system: "${Sys.systemName()}"');
+			}
+		}
+
 		httpServer.serveForever();
 	}
 }
