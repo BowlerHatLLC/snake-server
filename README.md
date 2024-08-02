@@ -44,6 +44,26 @@ The following options can be added to the **haxelib run snake-server** command t
 
   bind to this port (default: 8000)
 
+- **--cors**
+
+  add headers to enable CORS (Cross-Origin Resource Sharing)
+
+- **--no-cache**
+
+  add headers to disable caching in web browsers
+
+- **--silent**
+
+  disable logging of requests
+
+- **--open-browser**
+
+  launches the server's URL in a web browser
+
+- **--help**
+
+  print usage instructions
+
 Example:
 
 ```sh
