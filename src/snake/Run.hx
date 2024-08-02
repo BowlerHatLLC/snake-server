@@ -34,6 +34,7 @@ class Run {
 		var corsEnabled:Bool = false;
 		var cacheEnabled:Bool = true;
 		var argHandler:ArgHandler = null;
+		var silent:Bool = false;
 		argHandler = Args.generate([
 			@doc('bind to this address (default: 127.0.01')
 			["--bind"] => function(host:String) {
@@ -57,6 +58,9 @@ class Run {
 			["--no-cache"] => function() {
 				cacheEnabled = false;
 			},
+			["--silent"] => function() {
+				silent = true;
+			},
 			@doc('print this help message')
 			["--help"] => function() {
 				Sys.println("Usage: haxelib run snake-server [options]");
@@ -69,6 +73,7 @@ class Run {
 		BaseHTTPRequestHandler.protocolVersion = protocol;
 		RunHTTPRequestHandler.corsEnabled = corsEnabled;
 		RunHTTPRequestHandler.cacheEnabled = cacheEnabled;
+		RunHTTPRequestHandler.silent = silent;
 		var httpServer = new RunHTTPServer(new Host(address), port, RunHTTPRequestHandler, true, directory);
 		httpServer.threading = true;
 		httpServer.serveForever();
@@ -78,6 +83,7 @@ class Run {
 private class RunHTTPRequestHandler extends SimpleHTTPRequestHandler {
 	public static var corsEnabled = false;
 	public static var cacheEnabled = true;
+	public static var silent = false;
 
 	override private function setup():Void {
 		super.setup();
@@ -92,6 +98,13 @@ private class RunHTTPRequestHandler extends SimpleHTTPRequestHandler {
 			sendHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 		}
 		super.endHeaders();
+	}
+
+	override private function logMessage(message:String):Void {
+		if (silent) {
+			return;
+		}
+		super.logMessage(message);
 	}
 }
 
