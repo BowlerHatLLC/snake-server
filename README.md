@@ -8,7 +8,7 @@ Available on [Haxe sys targets](https://haxe.org/manual/std-sys.html) only.
 
 ## Installation
 
-Use the [**haxelib install**](https://lib.haxe.org/documentation/using-haxelib/#install) command to launch Snake Server in the current directory on port 8000.
+Use the [**haxelib install**](https://lib.haxe.org/documentation/using-haxelib/#install) command to download Snake Server.
 
 ```sh
 haxelib install snake-server
@@ -18,7 +18,7 @@ Requires Haxe 4.1 or newer.
 
 ## Command Line
 
-Use the [**haxelib run**](https://lib.haxe.org/documentation/using-haxelib/#run) command to download Snake Server.
+Use the [**haxelib run**](https://lib.haxe.org/documentation/using-haxelib/#run) command to launch Snake Server in the current directory on port 8000.
 
 ```sh
 haxelib run snake-server
