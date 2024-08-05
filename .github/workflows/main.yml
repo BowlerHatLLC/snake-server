@@ -24,7 +24,7 @@ jobs:
           if-no-files-found: error
       - uses: krdlab/setup-haxe@v1
         with:
-          haxe-version: 4.3.4
+          haxe-version: 4.3.5
       - name: Set up Haxelib dependencies
         run: |
           haxelib install dox --quiet
@@ -47,7 +47,7 @@ jobs:
   build:
     strategy:
       matrix:
-        haxe-version: [4.1.5, 4.2.5, 4.3.4]
+        haxe-version: [4.1.5, 4.2.5, 4.3.5]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
