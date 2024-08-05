@@ -119,11 +119,11 @@ private class RunHTTPRequestHandler extends SimpleHTTPRequestHandler {
 		super.endHeaders();
 	}
 
-	override private function logMessage(message:String):Void {
+	override private function logRequest(?code:Any, ?size:Any):Void {
 		if (silent) {
 			return;
 		}
-		super.logMessage(message);
+		super.logRequest(code, size);
 	}
 }
 
