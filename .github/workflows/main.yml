@@ -64,3 +64,4 @@ jobs:
           haxe neko.hxml
           haxe hl.hxml
           haxe cpp.hxml
+          haxe cppia.hxml

@@ -1,0 +1,4 @@
+--cppia bin/snake.cppia
+--main snake.Run
+-cp src
+-lib hxargs
