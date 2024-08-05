@@ -67,7 +67,7 @@ The following options can be added to the **haxelib run snake-server** command t
 Example:
 
 ```sh
-haxelib run snake-server --address 0.0.0.0 --port 3000 --protocol HTTP/1.1 --directory www
+haxelib run snake-server --bind 0.0.0.0 --port 3000 --protocol HTTP/1.1 --directory www
 ```
 
 ## Haxe Documentation
