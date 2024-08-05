@@ -176,6 +176,7 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 			headers = HeaderParser.parseHeaders(rfile);
 		} catch (e:Exception) {
 			sendError(HTTPStatus.REQUEST_HEADER_FIELDS_TOO_LARGE, "Line too long or too many headers");
+			return false;
 		}
 
 		var connType = headers.get('Connection');
