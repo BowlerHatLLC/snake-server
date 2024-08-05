@@ -108,7 +108,7 @@ class BaseServer {
 		} catch (e:Exception) {
 			return;
 		}
-		var clientAddress = request.host();
+		var clientAddress = request.peer();
 		if (verifyRequest(request, clientAddress)) {
 			try {
 				processRequest(request, clientAddress);
@@ -159,8 +159,7 @@ class BaseServer {
 
 		May be overridden.
 	**/
-	private function serverClose():Void {
-	}
+	private function serverClose():Void {}
 
 	/**
 		Finish one request by instantiating `requestHandlerClass`.
