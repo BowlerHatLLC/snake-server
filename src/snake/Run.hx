@@ -79,7 +79,12 @@ class Run {
 		RunHTTPRequestHandler.cacheEnabled = cacheEnabled;
 		RunHTTPRequestHandler.silent = silent;
 		var httpServer = new RunHTTPServer(new Host(address), port, RunHTTPRequestHandler, true, directory);
-		httpServer.threading = true;
+		// HTTP/1.1 basically requires threads due to keeping the connection
+		// open after response, so we have no choice but to enable threading.
+		// ideally, it would be threaded for HTTP/1.0 too, but for reasons that
+		// are currently unclear, socket errors are causing crashes when
+		// threaded. better to prefer stability until it can be resolved.
+		httpServer.threading = protocol >= "HTTP/1.1";
 
 		if (openBrowser) {
 			var url = 'http://${address}:${port}';
