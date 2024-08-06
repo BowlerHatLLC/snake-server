@@ -7,6 +7,7 @@ import haxe.io.Path;
 import snake.socket.BaseServer;
 import sys.FileSystem;
 import sys.io.File;
+import sys.io.FileInput;
 import sys.net.Host;
 import sys.net.Socket;
 
@@ -52,7 +53,14 @@ class SimpleHTTPRequestHandler extends BaseHTTPRequestHandler {
 	private function do_GET():Void {
 		var f = sendHead();
 		if (f != null) {
-			copyFile(f, wfile);
+			try {
+				copyFile(f, wfile);
+			} catch (e:Exception) {
+				// haxe doesn't have finally, so we need to close the input
+				// and rethrow the exception
+				f.close();
+				throw e;
+			}
 			f.close();
 		}
 	}
@@ -79,7 +87,7 @@ class SimpleHTTPRequestHandler extends BaseHTTPRequestHandler {
 	**/
 	private function sendHead():Input {
 		var translatedPath = translatePath(path);
-		var f = null;
+		var f:FileInput = null;
 		if (FileSystem.exists(translatedPath) && FileSystem.isDirectory(translatedPath)) {
 			if (!StringTools.endsWith(translatedPath, "/")) {
 				// redirect browser - doing basically what apache does
