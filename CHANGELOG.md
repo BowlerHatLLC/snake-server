@@ -1,5 +1,9 @@
 # Snake Server Change Log
 
+## 1.2.1 (2026-04-08)
+
+- Fixed unknown exception when client disconnects before a request is completed.
+
 ## 1.2.0 (2024-08-06)
 
 - Added `--silent` command line option to disable request logging (internal errors are still logged).

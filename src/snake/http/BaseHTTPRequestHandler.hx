@@ -285,6 +285,13 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 			// NOTE: Haxe does not seem to actually flush here!
 			wfile.flush();
 		} catch (e:Exception) {
+			try {
+				connection.peer();
+			} catch(e:Exception) {
+				// the peer disconnected before we could complete the request
+				closeConnection = true;
+				return;
+			}
 			logError("Unknown exception: " + e.toString());
 			closeConnection = true;
 			return;
