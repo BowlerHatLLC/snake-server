@@ -9,6 +9,7 @@ import snake.socket.BaseServer;
 import snake.socket.StreamRequestHandler;
 import sys.io.File;
 import sys.net.Host;
+import snake._internal.net.Socket as InternalSocket;
 import sys.net.Socket;
 
 class BaseHTTPRequestHandler extends StreamRequestHandler {
@@ -231,7 +232,7 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 	**/
 	private function handleOneRequest():Void {
 		try {
-			var selected = Socket.select([connection], null, null, 5);
+			var selected = InternalSocket.select([connection], null, null, 5);
 			if (selected.read.length == 0) {
 				closeConnection = true;
 				return;

@@ -1,0 +1,4 @@
+--main TestSocket
+-cp src
+-cp tests
+--interp
