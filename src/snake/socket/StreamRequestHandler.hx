@@ -1,10 +1,14 @@
 package snake.socket;
 
-import sys.net.Host;
 import haxe.Exception;
 import haxe.io.Output;
-import sys.net.Socket;
 import haxe.io.Input;
+import sys.net.Host;
+#if (eval && (haxe_ver >= 4.2))
+import snake._internal.net.Socket as Socket;
+#else
+import sys.net.Socket;
+#end
 
 /**
 	Define `rfile` and `wfile` for stream sockets.

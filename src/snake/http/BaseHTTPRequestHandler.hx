@@ -9,7 +9,11 @@ import snake.socket.BaseServer;
 import snake.socket.StreamRequestHandler;
 import sys.io.File;
 import sys.net.Host;
+#if (eval && (haxe_ver >= 4.2))
+import snake._internal.net.Socket as Socket;
+#else
 import sys.net.Socket;
+#end
 
 class BaseHTTPRequestHandler extends StreamRequestHandler {
 	private static final DATE_STRING_DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -287,7 +291,7 @@ class BaseHTTPRequestHandler extends StreamRequestHandler {
 		} catch (e:Exception) {
 			try {
 				connection.peer();
-			} catch(e:Exception) {
+			} catch (e:Exception) {
 				// the peer disconnected before we could complete the request
 				closeConnection = true;
 				return;

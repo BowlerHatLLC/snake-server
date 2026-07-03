@@ -9,7 +9,11 @@ import sys.FileSystem;
 import sys.io.File;
 import sys.io.FileInput;
 import sys.net.Host;
+#if (eval && (haxe_ver >= 4.2))
+import snake._internal.net.Socket as Socket;
+#else
 import sys.net.Socket;
+#end
 
 class SimpleHTTPRequestHandler extends BaseHTTPRequestHandler {
 	private var directory:String;

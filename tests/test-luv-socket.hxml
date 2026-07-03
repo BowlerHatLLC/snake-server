@@ -1,0 +1,4 @@
+--main TestLuvSocket
+-cp ../src
+-cp .
+--interp

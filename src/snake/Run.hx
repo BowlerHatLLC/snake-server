@@ -6,7 +6,11 @@ import snake.http.HTTPServer;
 import snake.http.SimpleHTTPRequestHandler;
 import snake.socket.BaseRequestHandler;
 import sys.net.Host;
+#if (eval && (haxe_ver >= 4.2))
+import snake._internal.net.Socket as Socket;
+#else
 import sys.net.Socket;
+#end
 
 /**
 	Run `haxelib run snake-server` to start a local HTTP server that serves

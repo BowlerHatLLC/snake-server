@@ -2,7 +2,11 @@ package snake.socket;
 
 import haxe.Exception;
 import sys.net.Host;
+#if (eval && (haxe_ver >= 4.2))
+import snake._internal.net.Socket as Socket;
+#else
 import sys.net.Socket;
+#end
 
 /**
 	Base class for various socket-based server classes.

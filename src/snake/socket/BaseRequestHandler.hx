@@ -1,8 +1,12 @@
 package snake.socket;
 
-import sys.net.Host;
-import sys.net.Socket;
 import haxe.Exception;
+import sys.net.Host;
+#if (eval && (haxe_ver >= 4.2))
+import snake._internal.net.Socket as Socket;
+#else
+import sys.net.Socket;
+#end
 
 /**
 	Base class for request handler classes.
