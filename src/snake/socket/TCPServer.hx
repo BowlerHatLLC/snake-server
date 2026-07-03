@@ -2,7 +2,7 @@ package snake.socket;
 
 import haxe.Exception;
 import sys.net.Host;
-import sys.net.Socket;
+import snake._internal.net.Socket;
 
 /**
 	Base class for various socket-based server classes.
