@@ -1,5 +1,9 @@
 # Snake Server Change Log
 
+## 2.0.0 (2026-09-17)
+
+- Fixed failure to bind the same port when exiting and quickly restarting server.
+
 ## 1.2.1 (2026-04-08)
 
 - Fixed unknown exception when client disconnects before a request is completed.
