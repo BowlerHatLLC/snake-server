@@ -18,7 +18,7 @@ import sys.net.Host;
 using eval.luv.Result.ResultTools;
 
 /**
-	A polyfill for sys.net.Socket on the eval/interp target that ensures that
+	A shim for sys.net.Socket on the eval/interp target that ensures that
 	SO_REUSEADDR is used so that exiting and restarting the server can
 	immediately use the same port without the following exception:
 
